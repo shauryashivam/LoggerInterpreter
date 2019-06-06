@@ -78,8 +78,7 @@ def file_rename():
         
         
 
-ser = serial.Serial(port='cat/dev/tty*',baudrate = 9600)
-
+ser = serial.Serial(port='/dev/ttyUSB0',baudrate = 9600)
 counter=0
 
 
@@ -97,11 +96,16 @@ def file_write ():
     #with open("new_log.dat", "a") as im :
 
 
-    i=str(ser.read(20))
+    i=str(ser.readline())
+    i=i.replace("\n","")
+    i=i.replace("\r","")
     now = datetime.now()
     print("Logging in:")
     print(str(now),i)
     file.write(str(now)+","+i+"\n")
+   # j=str(ser.read(1))
+
+    time.sleep(1)
     file.flush()
 
     file.close() 
@@ -125,7 +129,7 @@ def file_write ():
         
 current= datetime.now()
 current_time=current.hour*3600+current.minute*60+current.second
-time_limit=current.hour*3600+current.minute*60+current.second+3      
+time_limit=current.hour*3600+current.minute*60+current.second+30      
   
     
         
@@ -149,8 +153,8 @@ while True:
         file_store()
         for filename in os.listdir("LOGGER DATA"):
             print("Removing "+filename)
-            os.remove(filename)
-            time_limit+=3    
+           # os.remove(filename)
+            time_limit+=30  
         
         
 
@@ -160,8 +164,8 @@ while True:
         
         
         
-for filename in os.listdir("LOGGER DATA"):  
-    print("Removing "+filename)
-    os.remove(filename)
+#for filename in os.listdir("LOGGER DATA"):  
+ #   print("Removing "+filename)
+  #  os.remove(filename)
     
     
